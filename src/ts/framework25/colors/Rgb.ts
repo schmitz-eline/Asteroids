@@ -6,6 +6,8 @@ export class Rgb implements iColor {
     private _green: number;
     private _blue: number;
 
+    public static white = new Rgb(250, 250, 250);
+
     constructor(red: number, green: number, blue: number) {
         this.red = red;
         this.green = green;

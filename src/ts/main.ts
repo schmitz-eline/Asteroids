@@ -1,1 +1,3 @@
-console.log('Hello, World!');
+import {Game} from "./asteroid/Game";
+
+new Game();
