@@ -25,6 +25,7 @@ export class Ship extends Triangle implements iAnimatable {
         this.position.add(this.speed);
 
         this.draw();
+        this.update();
     }
 
 
@@ -45,5 +46,15 @@ export class Ship extends Triangle implements iAnimatable {
                     break;
             }
         });
+    }
+
+    private update() {
+        if (this.position.x >= this.canvas.width + settings.ship.width/2) {
+            this.position.x = -this.canvas.width/2;
+        }
+        if (this.position.x <= -this.canvas.width - settings.ship.width/2) {
+            this.position.x = this.canvas.width/2;
+        }
+        // TODO: position y en haut et en bas
     }
 }
