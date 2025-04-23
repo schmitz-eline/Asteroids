@@ -34,7 +34,7 @@ export class Game {
         this.canvas.height = Math.min(window.innerWidth, window.innerHeight);
     }
 
-    private removeText() {
+    public removeText() {
         document.querySelector(settings.h1.selector).classList.add(settings.h1.hideClass);
     }
 

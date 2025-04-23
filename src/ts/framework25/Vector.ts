@@ -4,6 +4,7 @@ export class Vector implements iPosition {
     x: number;
     y: number;
 
+
     constructor(position: iPosition) {
         this.x = position.x;
         this.y = position.y;
@@ -28,6 +29,7 @@ export class Vector implements iPosition {
         return new Vector({
             x: Math.cos(angle - Math.PI / 2) * length,
             y: Math.sin(angle - Math.PI / 2) * length,
-        });
+        })
     }
+
 }
