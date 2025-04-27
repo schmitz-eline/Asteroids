@@ -5,7 +5,7 @@ import {iDrawable} from "../types/iDrawable";
 import {Vector} from "../Vector";
 
 export class Triangle extends Rectangle implements iDrawable {
-    private points: iPosition[] = [];
+    public points: iPosition[] = [];
 
     constructor(ctx: CanvasRenderingContext2D, position: Vector, color: iColor, width: number, height: number, rotation: number) {
         super(ctx, position, color, width, height, rotation);

@@ -3,13 +3,18 @@ import {settings} from "./settings";
 import {iAnimatable} from "../framework25/types/iAnimatable";
 import {KeyController} from "../framework25/KeyController";
 import {Vector} from "../framework25/Vector";
+import {Bullet} from "./Bullet";
+import {Animation} from "../framework25/Animation";
 
 export class Ship extends Triangle implements iAnimatable {
     private canvas: HTMLCanvasElement;
     private keyController: KeyController;
-    private speed: Vector;
+    public speed: Vector;
+    private animation: Animation;
+    public shouldBeRemoved: boolean = false;
+    private bulletCounter = 0;
 
-    constructor(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement, keyController: KeyController) {
+    constructor(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement, keyController: KeyController, animation: Animation) {
         super(ctx, new Vector({
             x: canvas.width / 2,
             y: canvas.height / 2,
@@ -17,6 +22,7 @@ export class Ship extends Triangle implements iAnimatable {
         this.canvas = canvas;
         this.keyController = keyController;
         this.speed = new Vector({x: 0, y: 0});
+        this.animation = animation;
     }
 
     animate(): void {
@@ -57,7 +63,17 @@ export class Ship extends Triangle implements iAnimatable {
                 case 'ArrowDown':
                     this.speed.multiply(settings.ship.friction);
                     break;
+                case ' ':
+                    this.generateBullets();
+                    break;
             }
         })
+    }
+
+    private generateBullets() {
+        if (++this.bulletCounter > settings.bullet.maxCount) {
+            this.bulletCounter = 0;
+            this.animation.registeriAnimatable(new Bullet(this.ctx, this, this.canvas));
+        }
     }
 }

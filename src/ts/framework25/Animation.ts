@@ -1,9 +1,11 @@
 import {iAnimatable} from "./types/iAnimatable";
+import {settings} from "./settings";
 
 export class Animation {
     private canvas: HTMLCanvasElement;
     private ctx: CanvasRenderingContext2D;
-    private iAnimatables: iAnimatable[];
+    public iAnimatables: iAnimatable[];
+    private indexOfAnimatableThatShouldBeRemoved: number[] = [];
     private requestAnimationFrameID: number;
 
     constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, animatables: iAnimatable[] = []) {
@@ -29,10 +31,24 @@ export class Animation {
         this.requestAnimationFrameID = requestAnimationFrame(this.animate.bind(this));
 
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        for (const animatable of this.iAnimatables) {
-            animatable.animate()
+
+        for (let i = 0; i < this.iAnimatables.length; i++) {
+            if (this.iAnimatables[i].shouldBeRemoved) {
+                if (!this.indexOfAnimatableThatShouldBeRemoved.includes(i)) {
+                    this.indexOfAnimatableThatShouldBeRemoved.push(i);
+                }
+            }
+            this.iAnimatables[i].animate();
         }
 
+        if (this.indexOfAnimatableThatShouldBeRemoved.length > settings.maxUnnecessaryAnimatable) {
+            for (let i = this.indexOfAnimatableThatShouldBeRemoved.length - 1; i >= 0; i--) {
+                this.iAnimatables.splice(this.indexOfAnimatableThatShouldBeRemoved[i], 1);
+            }
+            this.indexOfAnimatableThatShouldBeRemoved = [];
+        }
+
+        console.log(this.iAnimatables.length);
     }
 
 }

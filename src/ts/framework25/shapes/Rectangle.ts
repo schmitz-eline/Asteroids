@@ -2,8 +2,9 @@ import {Shape} from "./Shape";
 import {iColor} from "../types/iColor";
 import {iDrawable} from "../types/iDrawable";
 import {Vector} from "../Vector";
+import {iRectangle} from "../types/iRectangle";
 
-export class Rectangle extends Shape implements iDrawable {
+export class Rectangle extends Shape implements iDrawable, iRectangle {
     width: number;
     height: number;
     rotation: number;
